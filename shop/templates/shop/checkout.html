@@ -1,0 +1,41 @@
+<!-- shop/templates/shop/checkout.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF--8">
+    <title>ご注文手続き</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; display: flex; gap: 20px; }
+        .order-form, .order-summary { border: 1px solid #ccc; padding: 20px; }
+        .order-form { flex: 2; }
+        .order-summary { flex: 1; }
+        form p { margin-bottom: 15px; }
+        form label { display: block; margin-bottom: 5px; font-weight: bold; }
+        form input { width: 90%; padding: 8px; }
+        .bb { display: block; border: 3px solid #ccc; text-decoration: none; height: 2em; font-size: 10px;}
+    </style>
+</head>
+<body>
+    <div class="order-form">
+        <h2>お届け先情報</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">この内容で注文する</button>
+        </form>
+    </div>
+
+    <div class="order-summary">
+        <h2>ご注文内容</h2>
+        {% for item in cart_items %}
+            <p>
+                {{ item.product.name }} ({{ item.quantity }}点)<br>
+                <small>&yen;{{ item.subtotal | floatformat:"0,g" }}</small>
+            </p>
+        {% endfor %}
+        <hr>
+        <p><strong>合計: &yen;{{ total_price | floatformat:"0,g" }}</strong></p>
+    </div>
+        <a class="bb" href="{%url 'shop:product_list' %}">back</a>
+</body>
+</html>

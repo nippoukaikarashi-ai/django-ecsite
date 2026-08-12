@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} - 商品詳細</title>
+    <style>
+         body { font-family: sans-serif; padding: 20px; }
+        .container { border: 1px solid #ccc; padding: 20px; max-width: 800px; margin: auto; }
+        h1 { border-bottom: 2px solid #007bff; }
+        a {text-decoration: none; color: black;}
+        button {color:white; background-color: black; border-radius: 25%; box-shadow: none;}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ product.name }}</h1>
+        <p><a href="{% url 'shop:cart_detail' %}">カートを見る</a></p>
+        <p><strong>price:</strong>&yen;{{ product.price | floatformat:"0,g" }}</p>
+        <p><strong>kind:</strong> {{ product.stock }} </p>
+        <hr>
+        <h3>comakaku</h3>
+        <p>{{ product.description | linebreaksbr }}</p>
+        <hr>
+	<form action="{%url 'shop:add_to_cart' product.pk %}" method="post">
+		{% csrf_token %}
+		<button type="submit">カートに入れる</button>
+        <hr>
+        <a href="{% url 'shop:product_list' %}">all back</a>
+    </div>
+</body>
+</html>

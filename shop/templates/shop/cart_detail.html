@@ -1,0 +1,67 @@
+<!-- shop/templates/shop/cart_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ショッピングカート</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .total { text-align: right; font-size: 1.2em; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>ショッピングカート</h1>
+    
+    {% if cart_items %}
+    <form action="{%  url 'shop:update_cart' %}" method="post">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th>商品名</th>
+                    <th>単価</th>
+                    <th>数量</th>
+                    <th>小計</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>&yen;{{ item.product.price | floatformat:"0,g" }}</td>
+                        <td>
+                            <input type="number" name="quantity_{{ item.product.pk }}" value="{{ item.quantity }}" min="0" style="width: 50px;">
+                        </td>
+                        <td>&yen;{{ item.subtotal | floatformat:"0,g" }}</td>
+                        <td>
+                            <form action="{% url 'shop:remove_from_cart' item.product.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">削除</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit">数量を更新</button>
+    </form>
+
+    <p class="total">合計金額: &yen;{{ total_price | floatformat:"0,g" }}</p>
+
+    <a href="{% url 'shop:product_list' %}">買い物を続ける</a>
+        <!-- 将来的にここに「注文手続きへ」ボタンが来ます -->
+         <a href="{% url 'shop:checkout' %}" style="background-color: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+            注文手続きへ進む
+         </a>
+
+{% else %}
+    <p>カートに商品はありません。</p>
+    <a href="{% url 'shop:product_list' %}">商品を探しに行く</a>
+{% endif %}
+</body>
+</html>

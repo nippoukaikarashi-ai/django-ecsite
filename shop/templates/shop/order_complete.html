@@ -1,0 +1,40 @@
+<!-- order_complete.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ご注文ありがとうございました</title>
+    <style>
+        body { font-family: sans-serif; }
+        .container { border: 1px solid #ccc; padding: 20px; margin: 20px; }
+        .warning { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ご注文ありがとうございました</h1>
+        <p>以下の内容でご注文を承りました。お支払いは銀行振込にてお願いいたします。</p>
+
+        <h2>ご注文情報</h2>
+        <p><strong>注文番号:</strong> {{ order.order_number }}</p>
+        <p><strong>ご請求金額:</strong> &yen;{{ order.total_amount | floatformat:"0,g" }}</p>
+
+        <hr>
+
+        <h2>お振込先口座</h2>
+        <p><strong>銀行名:</strong> {{ bank_info.bank_name }}</p>
+        <p><strong>支店名:</strong> {{ bank_info.branch_name }}</p>
+        <p><strong>口座種別:</strong> {{ bank_info.account_type }}</p>
+        <p><strong>口座番号:</strong> {{ bank_info.account_number }}</p>
+        <p><strong>口座名義:</strong> {{ bank_info.account_holder }}</p>
+
+        <hr>
+
+        <p class="warning">
+            ※ 振込手数料はお客様のご負担となります。<br>
+            ※ お振込の際は、振込名義人の前に【注文番号: {{ order.order_number }}】を必ずご入力ください。
+        </p>
+        <p>ご入金の確認が取れ次第、商品を発送いたします。</p>
+    </div>
+</body>
+</html>

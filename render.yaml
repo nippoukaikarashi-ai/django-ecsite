@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: ecsite
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --no-input
+      python manage.py migrate
+    startCommand: "gunicorn ecsite.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: PYTHON_VERSION
+        value: 3.12.3 # あなたのPythonバージョンに合わせてください
+      - key: DATABASE_URL
+        fromService:
+          type: psql
+          name: ecsite-db
+          property: connectionString
+
+databases:
+  - name: ecsite-db
+    databaseName: ecsite_db
+    user: ecsite_user
