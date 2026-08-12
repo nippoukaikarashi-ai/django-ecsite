@@ -1,3 +1,9 @@
+databases:
+  - name: ecsite-db
+    databaseName: ecsite_db
+    user: ecsite_user
+
+
 services:
   - type: web
     name: ecsite
@@ -19,8 +25,3 @@ services:
           type: postgres
           name: ecsite-db
           property: connectionString
-
-databases:
-  - name: ecsite-db
-    databaseName: ecsite_db
-    user: ecsite_user
