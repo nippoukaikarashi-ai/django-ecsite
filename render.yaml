@@ -13,7 +13,7 @@ services:
       - key: WEB_CONCURRENCY
         value: 4
       - key: PYTHON_VERSION
-        value: 3.12.3 # あなたのPythonバージョンに合わせてください
+        value: 3.12.3
       - key: DATABASE_URL
         fromService:
           type: postgres
