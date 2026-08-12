@@ -21,7 +21,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.12.3
       - key: DATABASE_URL
-        fromService:
+        fromDatabase:
           type: postgres
           name: ecsite-db
           property: connectionString
